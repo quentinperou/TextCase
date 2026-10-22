@@ -28,10 +28,11 @@
 - Select some text, press **Ctrl + Alt + C**: a popup shows **the result of each case**; choose one (a key, the
   arrows or the mouse) and the selection is replaced, as **plain text**. The four basic cases by default, the
   others to tick in the settings.
-- Or **Ctrl + C twice**, as with DeepL: the popup opens on what you have just copied.
+- Or **Ctrl+C+C** (hold Ctrl, press C twice), as with DeepL: the popup opens on what you have just copied.
 - **Direct shortcuts**: Ctrl + Alt + U, L, T, S convert at once (UPPERCASE, lowercase, Title Case, Sentence case);
   one for each case if you like.
 - Works in the **Remote Desktop** window too (nothing to install on the remote PC).
+- In File Explorer: right-click a file or folder → **Change the case of the name** (Show more options).
 - The clipboard holds again what you had copied.
 
 ### The cases

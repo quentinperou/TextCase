@@ -47,13 +47,13 @@
     <value>Ils convertissent la sélection tout de suite, sans la popup.</value>
   </data>
   <data name="DoubleCopy" xml:space="preserve">
-    <value>Ctrl+C deux fois</value>
+    <value>Ctrl+C+C</value>
   </data>
   <data name="DoubleCopyDelay" xml:space="preserve">
-    <value>Délai entre les deux Ctrl+C</value>
+    <value>Délai entre les deux appuis sur C</value>
   </data>
   <data name="DoubleCopyDescription" xml:space="preserve">
-    <value>La popup s&apos;ouvre sur ce que vous venez de copier.</value>
+    <value>Maintenez Ctrl et appuyez deux fois sur C : la popup s&apos;ouvre sur le texte copié.</value>
   </data>
   <data name="ErrorUpdate" xml:space="preserve">
     <value>La mise à jour a échoué : {0}</value>
@@ -66,6 +66,15 @@
   </data>
   <data name="ErrorUpdateRateLimited" xml:space="preserve">
     <value>GitHub limite le nombre de vérifications, réessayez dans un moment.</value>
+  </data>
+  <data name="ExplorerMenu" xml:space="preserve">
+    <value>Menu clic droit de l&apos;Explorateur</value>
+  </data>
+  <data name="ExplorerMenuDescription" xml:space="preserve">
+    <value>« Changer la casse du nom » sur les fichiers et les dossiers (Afficher d&apos;autres options), avec les casses de la popup.</value>
+  </data>
+  <data name="ExplorerMenuVerb" xml:space="preserve">
+    <value>Changer la casse du nom</value>
   </data>
   <data name="KeepWords" xml:space="preserve">
     <value>Mots gardés tels quels</value>
@@ -185,10 +194,16 @@
     <value>Intelligent</value>
   </data>
   <data name="PopupSmartHint" xml:space="preserve">
-    <value>Chaque Mot et Début de phrase gardent les mots de la liste, les sigles et les mots avec chiffres.</value>
+    <value>Chaque Mot et Début de phrase gardent les mots de la liste, les sigles et les mots avec chiffres (touche 0).</value>
   </data>
   <data name="QuitDescription" xml:space="preserve">
     <value>Les raccourcis s&apos;arrêtent jusqu&apos;au prochain lancement de TextCase (menu Démarrer).</value>
+  </data>
+  <data name="RenameExists" xml:space="preserve">
+    <value>« {0} » existe déjà ici.</value>
+  </data>
+  <data name="RenameFailed" xml:space="preserve">
+    <value>Impossible de renommer « {0} » : {1}</value>
   </data>
   <data name="RestoreClipboard" xml:space="preserve">
     <value>Remettre le presse-papiers</value>
@@ -236,7 +251,7 @@
     <value>Mode intelligent</value>
   </data>
   <data name="SmartModeDescription" xml:space="preserve">
-    <value>Garde les mots de la liste, les sigles, les chiffres romains et les mots avec chiffres. Désactivé : chaque lettre change. Aussi dans la popup : touche 0.</value>
+    <value>Garde les mots de la liste, les sigles, les chiffres romains et les mots avec chiffres. Désactivé : chaque lettre change. Se règle aussi dans la popup : bouton « Intelligent » ou touche 0.</value>
   </data>
   <data name="StartWithWindows" xml:space="preserve">
     <value>Démarrer avec Windows</value>

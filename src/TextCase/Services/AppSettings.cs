@@ -86,6 +86,9 @@ public sealed class AppSettings
     /// <summary>The small words of a title (de, la, of, the…) stay in lowercase.</summary>
     public bool SmallWordsLowercase { get; set; } = true;
 
+    /// <summary>"Change the case of the name" in the right-click menu of File Explorer (General; on, he asked for it).</summary>
+    public bool ExplorerMenuEnabled { get; set; } = true;
+
     /// <summary>The log of each swap and the popup kept open for a screenshot (About; off by default).</summary>
     public bool DeveloperMode { get; set; }
 

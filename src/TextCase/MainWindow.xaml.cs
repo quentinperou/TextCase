@@ -244,6 +244,7 @@ public partial class MainWindow : Window
                 if (check.IsChecked == true)
                     settings.PopupModes.Add(mode);
                 settings.Save();
+                App.RefreshExplorerMenu(); // its submenu holds the cases of the popup
             }
             check.Checked += Changed;
             check.Unchecked += Changed;
@@ -372,6 +373,9 @@ public partial class MainWindow : Window
 
         page.Children.Add(Ui.Card("", Strings.Get("StartWithWindows"), Strings.Get("StartWithWindowsHint"),
             Ui.Toggle(WindowsSettings.StartWithWindows, on => WindowsSettings.StartWithWindows = on, Strings.Get("StartWithWindows"))));
+
+        page.Children.Add(Ui.Card("", Strings.Get("ExplorerMenu"), Strings.Get("ExplorerMenuDescription"),
+            Ui.Toggle(settings.ExplorerMenuEnabled, App.SetExplorerMenu, Strings.Get("ExplorerMenu"))));
 
         page.Children.Add(Ui.Card("", Strings.Get("RestoreClipboard"), Strings.Get("RestoreClipboardDescription"),
             Ui.Toggle(settings.RestoreClipboard, on =>

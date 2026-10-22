@@ -71,6 +71,9 @@ Source: "..\dist\app\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs c
 [Registry]
 ; "Start with Windows" is written by the app itself (Settings › General, on by default once installed): removed with it.
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: none; ValueName: "TextCase"; Flags: uninsdeletevalue dontcreatekey
+; "Change the case of the name" in the menu of File Explorer is written by the app too (Settings › General): removed with it.
+Root: HKCU; Subkey: "Software\Classes\*\shell\TextCase"; Flags: uninsdeletekey dontcreatekey
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\TextCase"; Flags: uninsdeletekey dontcreatekey
 
 [Icons]
 Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#AppExe}"

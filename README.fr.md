@@ -28,10 +28,13 @@
 - Sélectionnez du texte, faites **Ctrl + Alt + C** : une popup montre **le résultat de chaque casse** ; choisissez-en
   une (une touche, les flèches ou la souris) et la sélection est remplacée, en **texte brut**. Les quatre casses de
   base par défaut, les autres à cocher dans les réglages.
-- Ou **Ctrl + C deux fois**, comme avec DeepL : la popup s'ouvre sur ce que vous venez de copier.
+- Ou **Ctrl+C+C** (Ctrl maintenu, C deux fois), comme avec DeepL : la popup s'ouvre sur ce que vous venez de
+  copier.
 - **Raccourcis directs** : Ctrl + Alt + U, L, T, S convertissent tout de suite (MAJUSCULES, minuscules, Chaque Mot,
   Début de phrase) ; un par casse si vous voulez.
 - Marche aussi dans la fenêtre du **Bureau à distance** (rien à installer sur le PC distant).
+- Dans l'Explorateur : clic droit sur un fichier ou un dossier → **Changer la casse du nom** (Afficher d'autres
+  options).
 - Le presse-papiers retrouve ce que vous aviez copié.
 
 ### Les casses

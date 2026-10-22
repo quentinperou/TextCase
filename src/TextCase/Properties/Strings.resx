@@ -47,13 +47,13 @@
     <value>They convert the selection at once, without the popup.</value>
   </data>
   <data name="DoubleCopy" xml:space="preserve">
-    <value>Ctrl+C twice</value>
+    <value>Ctrl+C+C</value>
   </data>
   <data name="DoubleCopyDelay" xml:space="preserve">
-    <value>Time between the two Ctrl+C</value>
+    <value>Time between the two presses of C</value>
   </data>
   <data name="DoubleCopyDescription" xml:space="preserve">
-    <value>The popup opens on what you have just copied.</value>
+    <value>Hold Ctrl and press C twice: the popup opens on the copied text.</value>
   </data>
   <data name="ErrorUpdate" xml:space="preserve">
     <value>The update failed: {0}</value>
@@ -66,6 +66,15 @@
   </data>
   <data name="ErrorUpdateRateLimited" xml:space="preserve">
     <value>GitHub limits the number of checks, try again in a while.</value>
+  </data>
+  <data name="ExplorerMenu" xml:space="preserve">
+    <value>Right-click menu of File Explorer</value>
+  </data>
+  <data name="ExplorerMenuDescription" xml:space="preserve">
+    <value>“Change the case of the name” on files and folders (Show more options), with the cases of the popup.</value>
+  </data>
+  <data name="ExplorerMenuVerb" xml:space="preserve">
+    <value>Change the case of the name</value>
   </data>
   <data name="KeepWords" xml:space="preserve">
     <value>Words kept as written</value>
@@ -185,10 +194,16 @@
     <value>Smart</value>
   </data>
   <data name="PopupSmartHint" xml:space="preserve">
-    <value>Title Case and Sentence case keep the words of the list, acronyms and words with digits.</value>
+    <value>Title Case and Sentence case keep the words of the list, acronyms and words with digits (the 0 key).</value>
   </data>
   <data name="QuitDescription" xml:space="preserve">
     <value>The shortcuts stop until TextCase is started again (Start menu).</value>
+  </data>
+  <data name="RenameExists" xml:space="preserve">
+    <value>“{0}” already exists here.</value>
+  </data>
+  <data name="RenameFailed" xml:space="preserve">
+    <value>Could not rename “{0}”: {1}</value>
   </data>
   <data name="RestoreClipboard" xml:space="preserve">
     <value>Put the clipboard back</value>
@@ -236,7 +251,7 @@
     <value>Smart mode</value>
   </data>
   <data name="SmartModeDescription" xml:space="preserve">
-    <value>Keeps the words of the list, acronyms, Roman numerals and words with digits. Off: every letter changes. Also in the popup: key 0.</value>
+    <value>Keeps the words of the list, acronyms, Roman numerals and words with digits. Off: every letter changes. Also set from the popup: its “Smart” button, or the 0 key.</value>
   </data>
   <data name="StartWithWindows" xml:space="preserve">
     <value>Start with Windows</value>

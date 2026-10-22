@@ -43,6 +43,17 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
+        // From the menu of File Explorer: one item renamed, then quit (the running TextCase is not involved, so that
+        // many items selected at once are all renamed).
+        if (e.Args is [ExplorerMenu.Argument, ..])
+        {
+            Settings = AppSettings.Load();
+            ApplyLanguage(Settings.Language);
+            ExplorerMenu.Rename(e.Args);
+            Shutdown();
+            return;
+        }
+
         _instance = SingleInstance.TryStart(e.Args, _ => Dispatcher.BeginInvoke(() => OpenMainWindow()));
         if (_instance is null)
         {
@@ -86,6 +97,7 @@ public partial class App : Application
         ApplyRules();
         ApplyShortcuts();
         WatchForeground();
+        RefreshExplorerMenu();
 
         // Start with Windows: on by default for the installed app, once; the user can turn it off in Settings.
         if (!Settings.StartupConfigured && WindowsSettings.IsInstalled)
@@ -228,6 +240,23 @@ public partial class App : Application
         Matcher.KeepPopupOpen = Settings.DeveloperMode;
     }
 
+    /// <summary>
+    /// The menu of File Explorer written again (this exe, the language, the cases of the popup): by the installed app
+    /// only, so that a development build never leaves a menu pointing to it.
+    /// </summary>
+    internal static void RefreshExplorerMenu()
+    {
+        if (WindowsSettings.IsInstalled)
+            ExplorerMenu.Apply(Settings.ExplorerMenuEnabled);
+    }
+
+    internal static void SetExplorerMenu(bool on)
+    {
+        Settings.ExplorerMenuEnabled = on;
+        Settings.Save();
+        ExplorerMenu.Apply(on);
+    }
+
     internal static void SetPaused(bool paused)
     {
         Settings.Paused = paused;
@@ -326,6 +355,7 @@ public partial class App : Application
             if (window.LanguageChanged is { } reopenOn)
             {
                 ApplyLanguage(Settings.Language);
+                RefreshExplorerMenu(); // its labels
                 Current.Dispatcher.BeginInvoke(() => OpenMainWindow(reopenOn), DispatcherPriority.ApplicationIdle);
             }
             else

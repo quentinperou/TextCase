@@ -370,6 +370,18 @@ internal static class NativeMethods
     [DllImport("user32.dll")]
     public static extern bool UnhookWinEvent(IntPtr hook);
 
+    // ---------------------------------------------------------------- Files (the menu of File Explorer)
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    public static extern bool MoveFileEx(string existing, string newName, int flags);
+
+    public const int SHCNE_RENAMEITEM = 0x00000001;
+    public const int SHCNE_RENAMEFOLDER = 0x00020000;
+    public const int SHCNF_PATHW = 0x0005;
+
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+    public static extern void SHChangeNotify(int eventId, int flags, string item1, string item2);
+
     // ---------------------------------------------------------------- Memory
 
     [DllImport("kernel32.dll")]
