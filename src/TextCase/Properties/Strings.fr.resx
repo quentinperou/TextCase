@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- French. Every key must also exist in the other language (checked by the tests). -->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutDevelopedBy" xml:space="preserve">
+    <value>Développé par </value>
+  </data>
+  <data name="AboutSourceCode" xml:space="preserve">
+    <value>Code source sur GitHub</value>
+  </data>
+  <data name="AboutVersion" xml:space="preserve">
+    <value>Version {0} · licence MIT</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="DirectShortcuts" xml:space="preserve">
+    <value>Raccourcis directs</value>
+  </data>
+  <data name="DirectShortcutsDescription" xml:space="preserve">
+    <value>Ils convertissent la sélection tout de suite, sans la popup.</value>
+  </data>
+  <data name="DoubleCopy" xml:space="preserve">
+    <value>Ctrl+C deux fois</value>
+  </data>
+  <data name="DoubleCopyDelay" xml:space="preserve">
+    <value>Délai entre les deux Ctrl+C</value>
+  </data>
+  <data name="DoubleCopyDescription" xml:space="preserve">
+    <value>La popup s&apos;ouvre sur ce que vous venez de copier.</value>
+  </data>
+  <data name="ErrorUpdate" xml:space="preserve">
+    <value>La mise à jour a échoué : {0}</value>
+  </data>
+  <data name="ErrorUpdateIntegrity" xml:space="preserve">
+    <value>le fichier téléchargé est endommagé, réessayez.</value>
+  </data>
+  <data name="ErrorUpdateOffline" xml:space="preserve">
+    <value>GitHub est injoignable (pas de connexion Internet ?).</value>
+  </data>
+  <data name="ErrorUpdateRateLimited" xml:space="preserve">
+    <value>GitHub limite le nombre de vérifications, réessayez dans un moment.</value>
+  </data>
+  <data name="KeepWords" xml:space="preserve">
+    <value>Mots gardés tels quels</value>
+  </data>
+  <data name="KeepWordsDescription" xml:space="preserve">
+    <value>Un par ligne, ou séparés par des virgules : EOS, iPhone, mm… Les mots avec des chiffres (R6, 24-70mm) et les chiffres romains (Mark II) sont gardés de toute façon.</value>
+  </data>
+  <data name="KeepWordsReset" xml:space="preserve">
+    <value>Liste par défaut</value>
+  </data>
+  <data name="KeyShift" xml:space="preserve">
+    <value>Maj</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="LanguageSystem" xml:space="preserve">
+    <value>Langue de Windows (automatique)</value>
+  </data>
+  <data name="MenuOpen" xml:space="preserve">
+    <value>Ouvrir TextCase</value>
+  </data>
+  <data name="MenuPause" xml:space="preserve">
+    <value>Mettre en pause les raccourcis</value>
+  </data>
+  <data name="MenuQuit" xml:space="preserve">
+    <value>Quitter TextCase</value>
+  </data>
+  <data name="ModeAlternating" xml:space="preserve">
+    <value>aLtErNeR</value>
+  </data>
+  <data name="ModeCamel" xml:space="preserve">
+    <value>camelCase</value>
+  </data>
+  <data name="ModeCleanSpaces" xml:space="preserve">
+    <value>Espaces en trop</value>
+  </data>
+  <data name="ModeConstant" xml:space="preserve">
+    <value>CONSTANT_CASE</value>
+  </data>
+  <data name="ModeDot" xml:space="preserve">
+    <value>dot.case</value>
+  </data>
+  <data name="ModeJoinLines" xml:space="preserve">
+    <value>Sans sauts de ligne</value>
+  </data>
+  <data name="ModeLower" xml:space="preserve">
+    <value>minuscules</value>
+  </data>
+  <data name="ModeNoAccents" xml:space="preserve">
+    <value>Sans accents</value>
+  </data>
+  <data name="ModeNoCase" xml:space="preserve">
+    <value>mots séparés</value>
+  </data>
+  <data name="ModeParam" xml:space="preserve">
+    <value>param-case</value>
+  </data>
+  <data name="ModePascal" xml:space="preserve">
+    <value>PascalCase</value>
+  </data>
+  <data name="ModePlainText" xml:space="preserve">
+    <value>Texte brut</value>
+  </data>
+  <data name="ModeSentence" xml:space="preserve">
+    <value>Début de phrase</value>
+  </data>
+  <data name="ModeSnake" xml:space="preserve">
+    <value>snake_case</value>
+  </data>
+  <data name="ModeTitle" xml:space="preserve">
+    <value>Chaque Mot</value>
+  </data>
+  <data name="ModeToggle" xml:space="preserve">
+    <value>iNVERSER</value>
+  </data>
+  <data name="ModeUpper" xml:space="preserve">
+    <value>MAJUSCULES</value>
+  </data>
+  <data name="PageAbout" xml:space="preserve">
+    <value>À propos</value>
+  </data>
+  <data name="PageConversions" xml:space="preserve">
+    <value>Conversions</value>
+  </data>
+  <data name="PageGeneral" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="PageShortcuts" xml:space="preserve">
+    <value>Raccourcis</value>
+  </data>
+  <data name="PageUpdates" xml:space="preserve">
+    <value>Mises à jour</value>
+  </data>
+  <data name="PopupHeader" xml:space="preserve">
+    <value>TextCase · texte sélectionné</value>
+  </data>
+  <data name="PopupHeaderLines" xml:space="preserve">
+    <value>TextCase · texte sélectionné, {0} lignes</value>
+  </data>
+  <data name="PopupHint" xml:space="preserve">
+    <value>{0} ou ↑ ↓ puis Entrée · 0 intelligent · Échap pour annuler</value>
+  </data>
+  <data name="PopupModes" xml:space="preserve">
+    <value>Dans la popup</value>
+  </data>
+  <data name="PopupModesDescription" xml:space="preserve">
+    <value>Les casses proposées par la popup.</value>
+  </data>
+  <data name="PopupShortcut" xml:space="preserve">
+    <value>Ouvrir la popup</value>
+  </data>
+  <data name="PopupShortcutDescription" xml:space="preserve">
+    <value>Copie la sélection, propose les casses, recolle le résultat en texte brut.</value>
+  </data>
+  <data name="PopupSmart" xml:space="preserve">
+    <value>Intelligent</value>
+  </data>
+  <data name="PopupSmartHint" xml:space="preserve">
+    <value>Chaque Mot et Début de phrase gardent les mots de la liste, les sigles et les mots avec chiffres.</value>
+  </data>
+  <data name="QuitDescription" xml:space="preserve">
+    <value>Les raccourcis s&apos;arrêtent jusqu&apos;au prochain lancement de TextCase (menu Démarrer).</value>
+  </data>
+  <data name="RestoreClipboard" xml:space="preserve">
+    <value>Remettre le presse-papiers</value>
+  </data>
+  <data name="RestoreClipboardDescription" xml:space="preserve">
+    <value>Après un changement de casse, le presse-papiers retrouve ce que vous aviez copié.</value>
+  </data>
+  <data name="ShortcutClear" xml:space="preserve">
+    <value>Retirer le raccourci</value>
+  </data>
+  <data name="ShortcutCopyPaste" xml:space="preserve">
+    <value>copier-coller</value>
+  </data>
+  <data name="ShortcutNeedsModifier" xml:space="preserve">
+    <value>Avec Ctrl, Alt ou Win</value>
+  </data>
+  <data name="ShortcutNone" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="ShortcutPress" xml:space="preserve">
+    <value>Appuyez sur le raccourci…</value>
+  </data>
+  <data name="ShortcutTaken" xml:space="preserve">
+    <value>Déjà pris : {0}</value>
+  </data>
+  <data name="ShortcutsActive" xml:space="preserve">
+    <value>Raccourcis actifs</value>
+  </data>
+  <data name="ShortcutsActiveDescription" xml:space="preserve">
+    <value>Aussi depuis l&apos;icône de la zone de notification : Mettre en pause les raccourcis.</value>
+  </data>
+  <data name="SliderResetHint" xml:space="preserve">
+    <value>Double-clic : revenir à {0} {1}</value>
+  </data>
+  <data name="SmallWords" xml:space="preserve">
+    <value>Petits mots en minuscule</value>
+  </data>
+  <data name="SmallWordsDescription" xml:space="preserve">
+    <value>de, la, et, of, the… restent en minuscule dans un titre.</value>
+  </data>
+  <data name="SmartCases" xml:space="preserve">
+    <value>Chaque Mot et Début de phrase</value>
+  </data>
+  <data name="SmartMode" xml:space="preserve">
+    <value>Mode intelligent</value>
+  </data>
+  <data name="SmartModeDescription" xml:space="preserve">
+    <value>Garde les mots de la liste, les sigles, les chiffres romains et les mots avec chiffres. Désactivé : chaque lettre change. Aussi dans la popup : touche 0.</value>
+  </data>
+  <data name="StartWithWindows" xml:space="preserve">
+    <value>Démarrer avec Windows</value>
+  </data>
+  <data name="StartWithWindowsHint" xml:space="preserve">
+    <value>Les raccourcis sont prêts dès l&apos;ouverture de session</value>
+  </data>
+  <data name="StatePaused" xml:space="preserve">
+    <value>Raccourcis en pause</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thème de l&apos;application</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>Sombre</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>Clair</value>
+  </data>
+  <data name="ThemeSystem" xml:space="preserve">
+    <value>Thème de Windows (automatique)</value>
+  </data>
+  <data name="ToastNothingSelected" xml:space="preserve">
+    <value>Aucun texte sélectionné</value>
+  </data>
+  <data name="TryIt" xml:space="preserve">
+    <value>Essayer</value>
+  </data>
+  <data name="TryItDescription" xml:space="preserve">
+    <value>Tapez ou collez un texte : chaque casse s&apos;affiche dessous. Sélectionnez-le et faites un raccourci pour les essayer aussi.</value>
+  </data>
+  <data name="UpdateBarText" xml:space="preserve">
+    <value>TextCase {0} est disponible.</value>
+  </data>
+  <data name="UpdateCancelled" xml:space="preserve">
+    <value>La mise à jour n&apos;a pas été installée.</value>
+  </data>
+  <data name="UpdateChannel" xml:space="preserve">
+    <value>Canal de mise à jour</value>
+  </data>
+  <data name="UpdateChannelBeta" xml:space="preserve">
+    <value>Bêta</value>
+  </data>
+  <data name="UpdateChannelDescription" xml:space="preserve">
+    <value>Les versions bêta reçoivent les nouveautés en avance, mais peuvent être moins stables. En revenant au canal stable, vous gardez la bêta jusqu&apos;à la version stable suivante.</value>
+  </data>
+  <data name="UpdateChannelStable" xml:space="preserve">
+    <value>Stable</value>
+  </data>
+  <data name="UpdateCheck" xml:space="preserve">
+    <value>Rechercher des mises à jour</value>
+  </data>
+  <data name="UpdateCheckAtStartup" xml:space="preserve">
+    <value>Rechercher les mises à jour au démarrage</value>
+  </data>
+  <data name="UpdateCheckAtStartupDescription" xml:space="preserve">
+    <value>Interroge GitHub à chaque lancement de l&apos;application pour connaître la dernière version.</value>
+  </data>
+  <data name="UpdateDownloading" xml:space="preserve">
+    <value>Téléchargement de la mise à jour…</value>
+  </data>
+  <data name="UpdateInstall" xml:space="preserve">
+    <value>Mettre à jour</value>
+  </data>
+  <data name="UpdateStarting" xml:space="preserve">
+    <value>Installation… acceptez la demande de Windows pour continuer.</value>
+  </data>
+  <data name="UpdateStatusAvailable" xml:space="preserve">
+    <value>Version {0} · la version {1} est disponible.</value>
+  </data>
+  <data name="UpdateStatusChecking" xml:space="preserve">
+    <value>Recherche de mises à jour…</value>
+  </data>
+  <data name="UpdateStatusFailed" xml:space="preserve">
+    <value>Version {0} · impossible de rechercher les mises à jour : {1}</value>
+  </data>
+  <data name="UpdateStatusIdle" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="UpdateStatusUpToDate" xml:space="preserve">
+    <value>Version {0} · TextCase est à jour.</value>
+  </data>
+  <data name="UpdateWhatsNew" xml:space="preserve">
+    <value>Nouveautés</value>
+  </data>
+</root>

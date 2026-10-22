@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>TextCase</AssemblyName>
+    <RootNamespace>TextCase</RootNamespace>
+    <ApplicationIcon>Assets\TextCase.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Product>TextCase</Product>
+    <SatelliteResourceLanguages>fr</SatelliteResourceLanguages>
+    <!-- Application.ThemeMode (Windows 11 Fluent theme) is still marked experimental in WPF .NET 10. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+
+    <!-- The app waits in the notification area all day: as light as it can be. No background GC thread (the heap is
+         small), and code compiled ahead of time. -->
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\TextCase.ico" />
+    <Resource Include="Assets\TextCase.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- WPF projects do not import System.IO implicitly. -->
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TextCase.Core\TextCase.Core.csproj" />
+  </ItemGroup>
+
+</Project>
