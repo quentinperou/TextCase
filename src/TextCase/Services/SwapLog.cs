@@ -5,9 +5,10 @@ using static TextCase.Services.NativeMethods;
 namespace TextCase.Services;
 
 /// <summary>
-/// A short log of the last swaps, to understand one that failed (above all through the remote desktop): which app,
-/// how long each step took, how long the text was, whether the paste was sent. **Never the text itself.** In
-/// %LOCALAPPDATA%\TextCase\swap.log (next to the settings), cut back to its last half beyond 100 KB.
+/// The log of developer mode (About), to understand a swap that failed (above all through the remote desktop): which
+/// app, how long each step took, how long the text was, whether the paste was sent, the keys pressed with Ctrl, Alt or
+/// Win. **Never the text itself.** In %LOCALAPPDATA%\TextCase\swap.log (next to the settings), cut back to its last
+/// half beyond 100 KB. Developer mode off: nothing is written.
 /// </summary>
 internal static class SwapLog
 {
@@ -15,8 +16,13 @@ internal static class SwapLog
 
     private const long MaxBytes = 100 * 1024;
 
+    /// <summary>Developer mode is on.</summary>
+    public static bool Enabled { get; set; }
+
     public static void Write(string line)
     {
+        if (!Enabled)
+            return;
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);

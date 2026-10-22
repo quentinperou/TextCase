@@ -260,12 +260,14 @@ internal static class NativeMethods
     // ---------------------------------------------------------------- Windows
 
     public const int GWL_EXSTYLE = -20;
+    public const int WS_EX_TOPMOST = 0x00000008;
     public const int WS_EX_TOOLWINDOW = 0x00000080;
     public const int WS_EX_NOACTIVATE = 0x08000000;
     public const int WS_POPUP = unchecked((int)0x80000000);
 
     public static readonly IntPtr HWND_TOPMOST = new(-1);
     public const int SWP_NOSIZE = 0x0001;
+    public const int SWP_NOMOVE = 0x0002;
     public const int SWP_NOZORDER = 0x0004;
     public const int SWP_NOACTIVATE = 0x0010;
 
@@ -347,6 +349,10 @@ internal static class NativeMethods
 
     [DllImport("user32.dll")]
     public static extern IntPtr MonitorFromPoint(POINT point, int flags);
+
+    /// <summary>The DPI of a screen (dpiType 0: the effective one, as the user set its scale).</summary>
+    [DllImport("shcore.dll")]
+    public static extern int GetDpiForMonitor(IntPtr monitor, int dpiType, out uint dpiX, out uint dpiY);
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     public static extern bool GetMonitorInfo(IntPtr monitor, ref MONITORINFO info);

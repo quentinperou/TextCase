@@ -56,6 +56,7 @@
 - **Anglais et français**.
 - **Démarre avec Windows**, attend dans la zone de notification, une pause en un clic.
 - **Mises à jour en un clic** depuis l'application (GitHub Releases).
+- **Mode développeur** (À propos) : un journal, et la popup reste ouverte pour une capture d'écran.
 
 ## Installation
 
@@ -133,10 +134,10 @@ tests vérifient que les deux ont les mêmes clés et les mêmes paramètres. Me
 ## Confidentialité
 
 Le texte que vous convertissez ne quitte jamais votre ordinateur : TextCase le lit dans le presse-papiers, le convertit
-en mémoire et le recolle. Pour voir ses raccourcis, il observe le clavier, et n'en garde rien. Un court journal des
-derniers changements (durées et longueurs, jamais le texte) reste dans `%LOCALAPPDATA%\TextCase\swap.log`, pour
-comprendre un échec. Le seul accès réseau est la **recherche de mises à jour** sur GitHub (`api.github.com`),
-désactivable dans **Mises à jour**.
+en mémoire et le recolle. Pour voir ses raccourcis, il observe le clavier, et n'en garde rien. En mode développeur
+seulement (À propos), un journal des raccourcis et de chaque changement (durées et longueurs, jamais le texte) est
+gardé dans `%LOCALAPPDATA%\TextCase\swap.log`. Le seul accès réseau est la **recherche de mises à jour** sur GitHub
+(`api.github.com`), désactivable dans **Mises à jour**.
 
 ## Licence
 

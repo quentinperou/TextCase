@@ -76,8 +76,7 @@ public partial class App : Application
                 SwapLog.Write($"trace: {trigger.Kind} raised");
             _ = Swap.RunAsync(trigger);
         });
-        // TODO: off again once the author's "nothing triggers" (October 22, 2026) is understood.
-        Matcher.Trace = true;
+        ApplyDeveloperMode();
         Matcher.PopupKeyPressed += (key, row) => Dispatcher.BeginInvoke(() => CasePopup.Current?.OnKey(key, row));
         Matcher.MaskNeeded += () => Hook.MaskModifiers();
         Matcher.Diagnostic += line => Dispatcher.BeginInvoke(() => SwapLog.Write(line));
@@ -139,7 +138,9 @@ public partial class App : Application
             GetWindowThreadProcessId(hwnd, out int processId);
             if (processId == Environment.ProcessId)
                 return;
-            CasePopup.Current?.Finish(null, $"another window in front, {SwapLog.Describe(hwnd)}");
+            // In developer mode the popup stays, for a screenshot (the capture tool comes to the front).
+            if (!Settings.DeveloperMode)
+                CasePopup.Current?.Finish(null, $"another window in front, {SwapLog.Describe(hwnd)}");
             if (!RemoteDesktop.IsRemoteWindow(hwnd))
             {
                 s_remoteTimer?.Stop();
@@ -202,6 +203,29 @@ public partial class App : Application
         Settings.SmartCases = smart;
         Settings.Save();
         ApplyRules();
+    }
+
+    /// <summary>
+    /// Developer mode (About): the log (each swap, each key with Ctrl, Alt or Win; never the text), and the popup kept
+    /// open until Esc or a choice, for a screenshot. Off: no log at all.
+    /// </summary>
+    internal static void SetDeveloperMode(bool on)
+    {
+        // The line saying it goes off is written before the log stops.
+        if (!on)
+            SwapLog.Write("developer mode off");
+        Settings.DeveloperMode = on;
+        Settings.Save();
+        ApplyDeveloperMode();
+        if (on)
+            SwapLog.Write($"developer mode on, TextCase {Updater.CurrentVersion}");
+    }
+
+    private static void ApplyDeveloperMode()
+    {
+        SwapLog.Enabled = Settings.DeveloperMode;
+        Matcher.Trace = Settings.DeveloperMode;
+        Matcher.KeepPopupOpen = Settings.DeveloperMode;
     }
 
     internal static void SetPaused(bool paused)

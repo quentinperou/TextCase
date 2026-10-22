@@ -56,6 +56,7 @@
 - **English and French**.
 - **Starts with Windows**, waits in the notification area, a pause in one click.
 - **Updates in one click** from the app (GitHub Releases).
+- **Developer mode** (About): a log, and the popup stays open for a screenshot.
 
 ## Installation
 
@@ -131,10 +132,10 @@ have the same keys and placeholders. Installer messages: `installer/TextCase.iss
 ## Privacy
 
 The text you convert never leaves your computer: TextCase reads it from the clipboard, converts it in memory and
-pastes it back. To see its shortcuts it watches the keyboard, and keeps nothing of it. A short log of the last
-changes (times and lengths, never the text) stays in `%LOCALAPPDATA%\TextCase\swap.log`, to understand one that
-failed. The only network access is the **update check** on GitHub (`api.github.com`), which can be turned off in
-**Updates**.
+pastes it back. To see its shortcuts it watches the keyboard, and keeps nothing of it. Only in developer mode
+(About), a log of the shortcuts and of each change (times and lengths, never the text) is kept in
+`%LOCALAPPDATA%\TextCase\swap.log`. The only network access is the **update check** on GitHub (`api.github.com`),
+which can be turned off in **Updates**.
 
 ## License
 

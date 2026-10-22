@@ -194,6 +194,21 @@ public class ShortcutMatcherTests
     }
 
     [Fact]
+    public void Popup_InDeveloperMode_OtherKeysLeaveItOpen()
+    {
+        _matcher.PopupOpen = true;
+        _matcher.KeepPopupOpen = true;
+        Down(LWin);
+        Down(LShift);
+        Assert.False(Down(0x53)); // Win+Shift+S, the screenshot of Windows: to Windows, the popup stays
+        Up(0x53);
+        Up(LShift);
+        Up(LWin);
+        Assert.True(Down(0x1B)); // Esc still closes it
+        Assert.Equal([(PopupKey.Cancel, '\0')], _popupKeys);
+    }
+
+    [Fact]
     public void Popup_AShortcutWithCtrl_ClosesIt()
     {
         _matcher.PopupOpen = true;

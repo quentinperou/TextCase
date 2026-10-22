@@ -25,6 +25,21 @@
   <data name="Close" xml:space="preserve">
     <value>Fermer</value>
   </data>
+  <data name="DeveloperLog" xml:space="preserve">
+    <value>Le journal</value>
+  </data>
+  <data name="DeveloperLogDescription" xml:space="preserve">
+    <value>À envoyer quand quelque chose ne marche pas.</value>
+  </data>
+  <data name="DeveloperLogOpen" xml:space="preserve">
+    <value>Ouvrir le journal</value>
+  </data>
+  <data name="DeveloperMode" xml:space="preserve">
+    <value>Mode développeur</value>
+  </data>
+  <data name="DeveloperModeDescription" xml:space="preserve">
+    <value>Un journal des raccourcis et de chaque changement de casse (jamais le texte), et la popup reste ouverte pour une capture d&apos;écran : seuls Échap ou un choix la ferment.</value>
+  </data>
   <data name="DirectShortcuts" xml:space="preserve">
     <value>Raccourcis directs</value>
   </data>

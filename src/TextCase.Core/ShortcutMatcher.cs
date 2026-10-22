@@ -115,6 +115,18 @@ public sealed class ShortcutMatcher
     /// <summary>Each key pressed with Ctrl, Alt or Win goes to <see cref="Diagnostic"/> too, with the state (debugging).</summary>
     public bool Trace { get; set; }
 
+    private volatile bool _keepPopupOpen;
+
+    /// <summary>
+    /// Developer mode: a key that is not the popup's goes to the app without closing it (a screenshot shortcut); only
+    /// Esc or a choice closes it.
+    /// </summary>
+    public bool KeepPopupOpen
+    {
+        get => _keepPopupOpen;
+        set => _keepPopupOpen = value;
+    }
+
     /// <summary>A modifier is held down by the user (Ctrl, Alt, Shift, Win).</summary>
     public bool AnyModifierDown => Modifiers() != ShortcutModifiers.None;
 
@@ -218,7 +230,8 @@ public sealed class ShortcutMatcher
         if (key is null)
         {
             // Any other key (Alt+Tab, a letter with Ctrl, Delete…): the popup closes and the key goes to the app.
-            PopupKeyPressed?.Invoke(PopupKey.Cancel, '\0');
+            if (!_keepPopupOpen)
+                PopupKeyPressed?.Invoke(PopupKey.Cancel, '\0');
             return false;
         }
         _taken[vk] = true;

@@ -49,7 +49,10 @@ internal sealed class TextSwap
         IReadOnlyList<(int, byte[])>? saved = null;
         string? text;
         var watch = Stopwatch.StartNew();
-        SwapLog.Write($"{trigger.Kind}{(trigger.Kind == TriggerKind.Direct ? " " + trigger.Mode : "")} in {SwapLog.Describe(target)}, remote: {remote}");
+        SwapLog.Write($"{trigger.Kind}{(trigger.Kind == TriggerKind.Direct ? " " + trigger.Mode : "")} in {SwapLog.Describe(target)}, remote: {remote}"
+            + (remote && GetWindowRect(target, out var window)
+                ? $" (window {window.Left},{window.Top} → {window.Right},{window.Bottom}, topmost: {(GetWindowLongPtr(target, GWL_EXSTYLE).ToInt64() & WS_EX_TOPMOST) != 0})"
+                : ""));
 
         if (trigger.Kind == TriggerKind.DoubleCopy)
         {
@@ -59,6 +62,9 @@ internal sealed class TextSwap
             if (!copied)
                 copied = await WaitForChangeAsync(ClipboardAccess.Sequence, remote ? 1500 : 400);
             text = ClipboardAccess.GetText(owner);
+            // From a remote PC the shared clipboard may still be on its way (its formats announced, the text not yet).
+            if (string.IsNullOrEmpty(text) && remote && await WaitForChangeAsync(ClipboardAccess.Sequence, 1500))
+                text = ClipboardAccess.GetText(owner);
             SwapLog.Write($"  copy by the app: {(copied ? "there" : "none")} at {watch.ElapsedMilliseconds} ms");
         }
         else
@@ -90,7 +96,9 @@ internal sealed class TextSwap
             mode = trigger.Mode;
         else
         {
-            var chosen = await CasePopup.ChooseAsync(text, anchor);
+            // Start and its search box are drawn above every window of an app: the popup goes beside them.
+            RECT? beside = ShellWindows.IsStartOrSearch(target) && GetWindowRect(target, out var start) ? start : null;
+            var chosen = await CasePopup.ChooseAsync(text, anchor, beside);
             if (chosen is null)
             {
                 if (saved is not null)

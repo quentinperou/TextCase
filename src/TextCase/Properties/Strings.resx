@@ -25,6 +25,21 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="DeveloperLog" xml:space="preserve">
+    <value>The log</value>
+  </data>
+  <data name="DeveloperLogDescription" xml:space="preserve">
+    <value>To send when something does not work.</value>
+  </data>
+  <data name="DeveloperLogOpen" xml:space="preserve">
+    <value>Open the log</value>
+  </data>
+  <data name="DeveloperMode" xml:space="preserve">
+    <value>Developer mode</value>
+  </data>
+  <data name="DeveloperModeDescription" xml:space="preserve">
+    <value>A log of the shortcuts and of each change of case (never the text), and the popup stays open for a screenshot: only Esc or a choice closes it.</value>
+  </data>
   <data name="DirectShortcuts" xml:space="preserve">
     <value>Direct shortcuts</value>
   </data>

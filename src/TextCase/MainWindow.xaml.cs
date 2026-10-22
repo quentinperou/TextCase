@@ -583,7 +583,35 @@ public partial class MainWindow : Window
         texts.Children.Add(source);
         about.Children.Add(texts);
         page.Children.Add(new Border { Style = (Style)Application.Current.FindResource("Card"), Child = about });
+
+        // Developer mode (asked by the author): the log, and the popup kept open for a screenshot.
+        var openLog = Ui.Button(Strings.Get("DeveloperLogOpen"), OpenLog);
+        var developer = Ui.Toggle(App.Settings.DeveloperMode, on =>
+        {
+            App.SetDeveloperMode(on);
+            openLog.IsEnabled = on;
+        }, Strings.Get("DeveloperMode"));
+        openLog.IsEnabled = App.Settings.DeveloperMode;
+        page.Children.Add(Ui.Group(
+            Ui.Row("", Strings.Get("DeveloperMode"), Strings.Get("DeveloperModeDescription"), developer),
+            Ui.Row("", Strings.Get("DeveloperLog"), Strings.Get("DeveloperLogDescription"), openLog)));
         return page;
+    }
+
+    // The log in the app that opens text files (Notepad), created empty if there is none yet.
+    private static void OpenLog()
+    {
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(SwapLog.FilePath)!);
+            if (!File.Exists(SwapLog.FilePath))
+                File.WriteAllText(SwapLog.FilePath, "");
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return;
+        }
+        OpenUrl(SwapLog.FilePath);
     }
 
     private static System.Windows.Documents.Hyperlink Link(string text, string url)

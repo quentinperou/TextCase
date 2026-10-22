@@ -80,7 +80,8 @@ a drawn app. `.local\readme\capture.ps1 -Lang en|fr` takes the pieces, `.local\r
 | Folder | Role |
 |--------|------|
 | `src/TextCase.Core` | Pure, tested logic: `CaseMode` (the cases, their groups, the keys of the popup rows), `CaseConverter` (every conversion), `CaseRules` (the word list, small words, elisions, Roman numerals), `Shortcut` (modifiers + virtual key, "Ctrl+Alt+C"), `DoublePress`, `SemanticVersion`, `UpdateFeed`. |
-| `src/TextCase` | WPF .NET 10. `App` (single instance, tray, hook, the window in front, settings), `CasePopup` (+ `PopupColors`; the Smart switch, key 0), `Toast`, `MainWindow` (pages built in code), `PopupMenu` + `Menus.xaml` (tray menu), `UpdateBar`, `Localization.cs`; `Controls/`: `Ui` (cards), `ShortcutBox` (records a shortcut); `Services/`: `KeyboardHook` (its own thread), `ShortcutMatcher` (what each key does), `TextSwap` (copy → popup → paste), `ClipboardAccess`, `Input` (SendInput), `RemoteDesktop`, `SwapLog` (each step of a swap, never the text), `TrayHost`, `AppSettings`, `WindowsSettings`, `SingleInstance`, `MicaBackdrop`, `MemoryTrim`, `Updater`, `NativeMethods`. |
+| `src/TextCase` | WPF .NET 10. `App` (single instance, tray, hook, the window in front, settings), `CasePopup` (+ `PopupColors`; the Smart switch, key 0), `Toast`, `MainWindow` (pages built in code), `PopupMenu` + `Menus.xaml` (tray menu), `UpdateBar`, `Localization.cs`; `Controls/`: `Ui` (cards), `ShortcutBox` (records a shortcut); `Services/`: `KeyboardHook` (its own thread), `ShortcutMatcher` (what each key does), `TextSwap` (copy → popup → paste), `ClipboardAccess`, `Input` (SendInput), `RemoteDesktop`, `ShellWindows` (Start and its search: the popup then opens beside them), `SwapLog` (developer
+mode: each step of a swap, never the text), `TrayHost`, `AppSettings`, `WindowsSettings`, `SingleInstance`, `MicaBackdrop`, `MemoryTrim`, `Updater`, `NativeMethods`. |
 | `tests/TextCase.Tests` | xUnit: conversions, shortcuts, Ctrl+C twice, update feed, localization key parity. |
 | `installer/TextCase.iss` | Inno Setup (English/French), .NET 10 Desktop Runtime check, closes the running app. |
 | `scripts/` | `build.ps1`, `make-icons.ps1`. |
@@ -143,7 +144,3 @@ value)` exists for every `CaseMode` (a test checks). Installer messages in `inst
   second start of TextCase wakes the running one (single instance): stop it fully before a start with other settings.
 - `RenderTargetBitmap` of an element with a margin draws it at its margin: the popup's picture adds the shadow room
   on both sides.
-
-## To do
-
-- [ ] Turn the key trace off (`Matcher.Trace`) once the shortcuts are confirmed; the next version number for it.

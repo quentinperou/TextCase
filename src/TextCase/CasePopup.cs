@@ -37,10 +37,15 @@ internal sealed class CasePopup : Window
     public static CasePopup? Current { get; private set; }
 
     /// <summary>Shows the popup for <paramref name="text"/>; the case chosen, or null when it was closed.</summary>
-    public static Task<CaseMode?> ChooseAsync(string text, POINT anchor)
+    /// <param name="beside">
+    /// The rectangle of Start or its search box, in screen pixels: Windows draws them in a layer above every window of
+    /// an app (even topmost, even owned by the taskbar: tried in 0.1.2), so the popup goes beside them, narrower if
+    /// needed, never under them.
+    /// </param>
+    public static Task<CaseMode?> ChooseAsync(string text, POINT anchor, RECT? beside = null)
     {
         Current?.Finish(null, "another popup opens");
-        var popup = new CasePopup(text, anchor);
+        var popup = new CasePopup(text, anchor, beside);
         Current = popup;
         App.Matcher.PopupOpen = true;
         App.Hook.WatchMouse(true);
@@ -74,10 +79,19 @@ internal sealed class CasePopup : Window
     }
 
     private bool _picture;
+    private readonly RECT? _beside;
+    private bool? _onRight;
+    private double _panelWidth = 600;
 
-    private CasePopup(string text, POINT anchor)
+    /// <summary>The narrowest the popup gets to fit beside Start.</summary>
+    private const double MinPanelWidth = 360;
+
+    private CasePopup(string text, POINT anchor, RECT? beside = null)
     {
         _anchor = anchor;
+        _beside = beside;
+        if (beside is { } avoid)
+            FitBeside(avoid);
         Title = "TextCase";
         WindowStyle = WindowStyle.None;
         AllowsTransparency = true;
@@ -108,8 +122,10 @@ internal sealed class CasePopup : Window
         };
         ContentRendered += (_, _) =>
         {
-            if (!_picture)
-                Place();
+            if (_picture)
+                return;
+            Place();
+            KeepOnTop();
         };
         DpiChanged += (_, _) =>
         {
@@ -130,7 +146,7 @@ internal sealed class CasePopup : Window
         _sample = sample;
         var rules = App.Rules;
 
-        var panel = new StackPanel { Width = 600 };
+        var panel = new StackPanel { Width = _panelWidth };
         int lines = text.Split('\n').Length - (text.EndsWith('\n') ? 1 : 0);
         string header = lines > 1 ? Strings.Format("PopupHeaderLines", lines) : Strings.Get("PopupHeader");
         var top = new DockPanel { Margin = new Thickness(10, 5, 2, 5) };
@@ -382,8 +398,30 @@ internal sealed class CasePopup : Window
         int margin = (int)(ShadowRoom * VisualTreeHelper.GetDpi(this).DpiScaleX);
         bool inside = point.X >= rect.Left + margin && point.X < rect.Right - margin
             && point.Y >= rect.Top + margin && point.Y < rect.Bottom - margin;
-        if (!inside)
-            Finish(null, "a click outside it");
+        if (inside)
+            return;
+        // In developer mode it stays open, for a screenshot: Esc or a choice closes it.
+        string where = $"a click outside it, at {point.X},{point.Y} (popup {rect.Left + margin},{rect.Top + margin} → {rect.Right - margin},{rect.Bottom - margin})";
+        if (App.Settings.DeveloperMode)
+            SwapLog.Write($"  {where}: kept open (developer mode)");
+        else
+            Finish(null, where);
+    }
+
+    // Some windows put themselves above the others again (the remote desktop client in full screen): while the popup is
+    // open, it goes back to the top of the topmost windows a few times a second.
+    private System.Windows.Threading.DispatcherTimer? _keepOnTop;
+
+    private void KeepOnTop()
+    {
+        _keepOnTop = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
+        _keepOnTop.Tick += (_, _) =>
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            if (hwnd != IntPtr.Zero)
+                SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        };
+        _keepOnTop.Start();
     }
 
     /// <param name="reason">Why it closes without a choice, for the log.</param>
@@ -396,6 +434,7 @@ internal sealed class CasePopup : Window
             SwapLog.Write($"  popup closed: {reason}");
         if (Current == this)
             Current = null;
+        _keepOnTop?.Stop();
         App.Matcher.PopupOpen = false;
         App.Hook.WatchMouse(false);
         Close();
@@ -416,14 +455,46 @@ internal sealed class CasePopup : Window
         if (!GetMonitorInfo(monitor, ref info))
             return;
         var work = info.rcWork;
-        int margin = (int)(ShadowRoom * VisualTreeHelper.GetDpi(this).DpiScaleX);
+        double scale = VisualTreeHelper.GetDpi(this).DpiScaleX;
+        int margin = (int)(ShadowRoom * scale);
         int x = _anchor.X - margin;
         int y = _anchor.Y - margin + 6;
-        if (y + rect.Height - margin > work.Bottom)
+        if (_beside is { } avoid && _onRight is { } onRight)
+        {
+            // Beside Start, its top on Start's top.
+            int gap = (int)(8 * scale);
+            x = onRight ? avoid.Right + gap - margin : avoid.Left - gap - rect.Width + margin;
+            y = avoid.Top - margin;
+        }
+        else if (y + rect.Height - margin > work.Bottom)
             y = _anchor.Y - rect.Height + margin - 30;
         x = Math.Clamp(x, work.Left - margin, Math.Max(work.Left - margin, work.Right - rect.Width + margin));
         y = Math.Clamp(y, work.Top - margin, Math.Max(work.Top - margin, work.Bottom - rect.Height + margin));
         SetWindowPos(hwnd, HWND_TOPMOST, x, y, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
+        SwapLog.Write($"  popup at {x + margin},{y + margin} ({rect.Width - 2 * margin}×{rect.Height - 2 * margin})"
+            + (_beside is { } b ? $", beside Start {b.Left},{b.Top} → {b.Right},{b.Bottom}: {(_onRight is null ? "no room" : _onRight.Value ? "right" : "left")}" : ""));
+    }
+
+    /// <summary>
+    /// Room beside Start (<paramref name="avoid"/>) on its screen: the wider side, the popup narrower if needed (down to
+    /// <see cref="MinPanelWidth"/>). No room: it opens as usual, under Start.
+    /// </summary>
+    private void FitBeside(RECT avoid)
+    {
+        var center = new POINT { X = (avoid.Left + avoid.Right) / 2, Y = (avoid.Top + avoid.Bottom) / 2 };
+        var monitor = MonitorFromPoint(center, MONITOR_DEFAULTTONEAREST);
+        var info = new MONITORINFO { cbSize = System.Runtime.InteropServices.Marshal.SizeOf<MONITORINFO>() };
+        if (!GetMonitorInfo(monitor, ref info))
+            return;
+        double scale = GetDpiForMonitor(monitor, 0, out uint dpi, out _) == 0 ? dpi / 96.0 : 1;
+        int right = info.rcWork.Right - avoid.Right;
+        int left = avoid.Left - info.rcWork.Left;
+        // The panel inside the window: the shadow room, the border and padding, a gap from Start.
+        double width = Math.Max(right, left) / scale - 2 * ShadowRoom - 10 - 8;
+        if (width < MinPanelWidth)
+            return;
+        _panelWidth = Math.Min(600, width);
+        _onRight = right >= left;
     }
 
     private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
