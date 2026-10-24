@@ -90,7 +90,7 @@ a drawn app. `.local\readme\capture.ps1 -Lang en|fr` takes the pieces, `.local\r
 | `src/TextCase.Core` | Pure, tested logic: `CaseMode` (the cases, their groups, the keys of the popup rows), `CaseConverter` (every conversion, smart and simple), `CaseRules` (the word list, small words, elisions, Roman numerals, the Smart switch), `Shortcut` (modifiers + virtual key, "Ctrl+Alt+C") and `DoublePress`, `ShortcutMatcher` (what each key does: shortcuts, Ctrl+C twice, the popup's keys, missed releases; with `KeyEvent`, `Trigger`, `PopupKey`), `FileNames` (the case of a file or folder name, its extension kept), `SemanticVersion`, `UpdateFeed`. |
 | `src/TextCase` | WPF .NET 10. `App` (single instance, tray, hook, the window in front, settings, developer mode), `CasePopup` (+ `PopupColors`; the Smart switch, key 0; beside Start), `Toast`, `MainWindow` (pages built in code), `PopupMenu` + `Menus.xaml` (tray menu), `UpdateBar`, `Localization.cs`; `Controls/`: `Ui` (cards), `ShortcutBox` (records a shortcut); `Services/`: `KeyboardHook` (its own thread), `TextSwap` (copy → popup → paste), `ClipboardAccess` (+ the listener of copies), `Input` (SendInput), `RemoteDesktop`, `ShellWindows` (Start and its search box), `ExplorerMenu` (the menu of File Explorer, `--rename`), `SwapLog` (developer mode: each step, never the text), `TrayHost`, `AppSettings`, `WindowsSettings`, `SingleInstance`, `MicaBackdrop`, `MemoryTrim`, `Updater`, `NativeMethods`. |
 | `tests/TextCase.Tests` | xUnit: conversions, shortcuts and the key logic (a clock of the tests), Ctrl+C twice, update feed, localization key parity. |
-| `installer/TextCase.iss` | Inno Setup (English/French), .NET 10 Desktop Runtime check, closes the running app. |
+| `installer/TextCase.iss` | Inno Setup (English/French), .NET 10 Desktop Runtime check (a silent install, winget or the updater, installs it without asking: no message box), closes the running app. |
 | `scripts/` | `build.ps1`, `make-icons.ps1`. |
 | `.github/workflows/build.yml` | Build + tests on push; release on a `v*` tag (pre-release when the tag has a `-`). |
 
@@ -174,4 +174,40 @@ value)` exists for every `CaseMode` (a test checks). Installer messages in `inst
 
 - [ ] Later, if he uses it: the menu in the short menu of Windows 11 (option 2: an `IExplorerCommand` DLL and a sparse
       package, as FolderTools).
+- [ ] **Code signing with SignPath Foundation**, once the repository is public (see "Code signing (planned)" below).
+- [ ] **winget** (from 0.1.5, whose installer asks nothing when silent): manifests for `QuentinPerou.TextCase`
+      (`InstallerType: inno`, machine scope, `ElevationRequirement: elevatesSelf`, `ProductCode`
+      `{4D4C29C7-FEEA-4F84-8A74-1DB539E852D1}_is1`, dependency `Microsoft.DotNet.DesktopRuntime.10`, locales en-US and
+      fr-FR), tested in Windows Sandbox, a pull request to `microsoft/winget-pkgs` from his account; once accepted, a
+      step of the release job opens the pull request of each new version.
 - [ ] Retake the README pictures: the popup now shows four cases by default.
+
+## Code signing (planned)
+
+Where **Smart App Control** is on, an unsigned app does not start (and once turned off it only comes back with a
+reinstall of Windows). It lets run only what is signed by a certificate of a provider Microsoft trusts; a self-signed
+certificate does not count, and there is no exception list. The choice is a **free** one: **SignPath Foundation**
+(free for open source), not Artifact Signing (≈ $10 a month, in Europe for companies only) nor a bought certificate.
+Not started: SignPath needs the public repository and a release first.
+
+- **The author's steps**: push the repository (public), publish a release, enable MFA on GitHub and SignPath, apply on
+  signpath.org (OSI license: MIT; own code only; actively maintained; uninstall tool: the installer has one). Once
+  accepted: add the GitHub.com trusted build system to the SignPath project, an API token (secret
+  `SIGNPATH_API_TOKEN`), and tell Claude the organization id, project slug, signing policy and artifact configuration
+  slugs. Each release then needs his approval in SignPath (two per release, see below).
+- **README**: a "Code signing policy" section (both languages) on the home page: "Free code signing provided by
+  SignPath.io, certificate by SignPath Foundation" (both names linked), the roles (committers and reviewers,
+  approvers: QuentinPerou), and a privacy statement (the only network access is the update check on GitHub, which
+  can be turned off; the template sentence starts "This program will not transfer any information to other
+  networked systems unless specifically requested by the user…"). Product name and version must be set in every
+  signed binary (they are: `Directory.Build.props`).
+- **Workflow** (on a `v*` tag, GitHub-hosted runners only): build and test; ISCC once with a Sign Tool that only
+  copies the uninstaller out (`uninst.e32.tmp`; this compile then stops, as expected); upload `dist\app` + that
+  uninstaller with `actions/upload-artifact`, sign them with `signpath/github-action-submit-signing-request`
+  (approval 1, the artifact configuration deep-signs every `.exe`, `.dll` and the `.e32`); ISCC again with a Sign
+  Tool that copies the signed uninstaller over `$f`; upload the setup, sign it (approval 2); release.
+- **Inno Setup fact** (tested October 22, 2026 with a logging Sign Tool): with `SignedUninstaller=yes`, ISCC writes
+  `uninst.e32.tmp` in `SignedUninstallerDir`, runs the Sign Tool on it, then **refuses to go on** ("returned an exit
+  code of 0, but the file does not have a digital signature") if it is still unsigned. So the signing must be done
+  (or a signed copy put in place) by the Sign Tool command itself.
+- The same recipe will serve his other apps (ScreenClip, PageCompose, FolderTools, CropPdf, NowPlaying).

@@ -106,21 +106,24 @@ begin
     FindClose(FindRec);
 end;
 
+{ A silent install (winget, the updater) installs it without asking, and says nothing if that fails: a message box
+  would wait for an answer nobody sees (MsgBox is not suppressed by /SUPPRESSMSGBOXES). }
 procedure EnsureDesktopRuntime;
 var
   ResultCode: Integer;
 begin
   if IsDesktopRuntimeInstalled then
     Exit;
-  if MsgBox(CustomMessage('RuntimeMissing'), mbConfirmation, MB_YESNO) <> IDYES then
+  if not WizardSilent and (MsgBox(CustomMessage('RuntimeMissing'), mbConfirmation, MB_YESNO) <> IDYES) then
     Exit;
   WizardForm.StatusLabel.Caption := CustomMessage('RuntimeInstalling');
-  if not Exec('winget.exe', 'install --id Microsoft.DotNet.DesktopRuntime.10 -e --silent --accept-source-agreements --accept-package-agreements',
-    '', SW_HIDE, ewWaitUntilTerminated, ResultCode) or not IsDesktopRuntimeInstalled then
-  begin
-    MsgBox(CustomMessage('RuntimeFailed'), mbInformation, MB_OK);
-    ShellExec('open', 'https://dotnet.microsoft.com/download/dotnet/10.0', '', '', SW_SHOWNORMAL, ewNoWait, ResultCode);
-  end;
+  if Exec('winget.exe', 'install --id Microsoft.DotNet.DesktopRuntime.10 -e --silent --accept-source-agreements --accept-package-agreements',
+    '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and IsDesktopRuntimeInstalled then
+    Exit;
+  if WizardSilent then
+    Exit;
+  MsgBox(CustomMessage('RuntimeFailed'), mbInformation, MB_OK);
+  ShellExec('open', 'https://dotnet.microsoft.com/download/dotnet/10.0', '', '', SW_SHOWNORMAL, ewNoWait, ResultCode);
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
