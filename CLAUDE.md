@@ -28,11 +28,16 @@ and closed after (`MemoryTrim`). Measure before and after a change that runs at 
 
 **Git**: commits only in the author's name (repository-local identity `QuentinPerou`, his GitHub noreply address),
 **no `Co-Authored-By` line**. **Never push** without his explicit OK: he pushes from his own PC.
+Remote `origin`: the public `github.com/quentinperou/TextCase`. A version goes out as `main`, then its tag alone
+(`git push origin vX.Y.Z`: the tags are lightweight, `--follow-tags` skips them); the tag's workflow publishes the
+release with the installer. The Store version goes out **by hand**, as NowPlaying's: `scripts\build-store.ps1`, then
+in Partner Center a new submission (it copies the last one): the new `.msix`, the "What's new" of each listing, Submit.
 
 ## Commands
 
 ```powershell
 .\scripts\build.ps1                       # tests + dist\app (ReadyToRun) + installer
+.\scripts\build-store.ps1                 # tests + dist\store\TextCase_<version>.0_x64.msix (the Store version)
 dotnet test tests\TextCase.Tests          # unit tests (Core + localization)
 dotnet run --project src\TextCase         # run (opens the window; --background opens nothing)
 powershell -File scripts\make-icons.ps1   # regenerate the icons (Windows PowerShell 5.1); -Preview: the small sizes
@@ -44,6 +49,11 @@ Environment variables: `TEXTCASE_LANG=en|fr`, `TEXTCASE_THEME=Light|Dark`, `TEXT
 `TEXTCASE_PICTURE_TEXT`, or a product name, drawn off screen into the file; no window opens),
 `TEXTCASE_SETTINGS=<file.json>` (another settings file, the swap log next to it: the test runs). Settings live in
 `%LOCALAPPDATA%\TextCase\settings.json`, the swap log (developer mode) beside them.
+
+The Store version in development: `Add-AppxPackage -Register dist\store\layout\AppxManifest.xml` (Developer Mode; no
+other TextCase running, or both answer each shortcut; from an NTFS drive: on the exFAT USB key, copy the layout to
+`%USERPROFILE%\TextCase-store-test` first), started from the Start menu or `shell:AppsFolder\<family>!App`;
+removed by `Get-AppxPackage QuentinPerou.TextCasebyQuentinPerou | Remove-AppxPackage` (its data goes with it).
 
 ## Working on the project
 
@@ -65,10 +75,11 @@ Environment variables: `TEXTCASE_LANG=en|fr`, `TEXTCASE_THEME=Light|Dark`, `TEXT
 
 ### README pictures
 
-`.github/screenshot.png` (English) and `.github/screenshot.fr.png` (French), 1560 × 1000: on the gradient of the
-icon, the real settings window (light theme, Shortcuts page) and the real popup opened on a product name selected in
-a drawn app. `.local\readme\capture.ps1 -Lang en|fr` takes the pieces, `.local\readme\compose.ps1` renders
-`.local\readme\hero.html`. Retake them when the UI changes (they still show all 17 cases, from 0.1.0).
+`.github/screenshot.png` (English) and `.github/screenshot.fr.png` (French), 1560 × 810, also the screenshots of the
+Store listing: on the gradient of the icon, the real settings window (light theme, Shortcuts page) and the real popup
+(the four cases of the default, the Smart switch on) opened on a product name selected in a drawn app.
+`.local\readme\capture.ps1 -Lang en|fr` takes the pieces, `.local\readme\compose.ps1` renders `.local\readme\hero.html`.
+Retake them when the UI changes (last taken October 26, 2026, from 0.2.0).
 
 ## Framing (October 22, 2026, the author's answers)
 
@@ -88,10 +99,11 @@ a drawn app. `.local\readme\capture.ps1 -Lang en|fr` takes the pieces, `.local\r
 | Folder | Role |
 |--------|------|
 | `src/TextCase.Core` | Pure, tested logic: `CaseMode` (the cases, their groups, the keys of the popup rows), `CaseConverter` (every conversion, smart and simple), `CaseRules` (the word list, small words, elisions, Roman numerals, the Smart switch), `Shortcut` (modifiers + virtual key, "Ctrl+Alt+C") and `DoublePress`, `ShortcutMatcher` (what each key does: shortcuts, Ctrl+C twice, the popup's keys, missed releases; with `KeyEvent`, `Trigger`, `PopupKey`), `FileNames` (the case of a file or folder name, its extension kept), `SemanticVersion`, `UpdateFeed`. |
-| `src/TextCase` | WPF .NET 10. `App` (single instance, tray, hook, the window in front, settings, developer mode), `CasePopup` (+ `PopupColors`; the Smart switch, key 0; beside Start), `Toast`, `MainWindow` (pages built in code), `PopupMenu` + `Menus.xaml` (tray menu), `UpdateBar`, `Localization.cs`; `Controls/`: `Ui` (cards), `ShortcutBox` (records a shortcut); `Services/`: `KeyboardHook` (its own thread), `TextSwap` (copy → popup → paste), `ClipboardAccess` (+ the listener of copies), `Input` (SendInput), `RemoteDesktop`, `ShellWindows` (Start and its search box), `ExplorerMenu` (the menu of File Explorer, `--rename`), `SwapLog` (developer mode: each step, never the text), `TrayHost`, `AppSettings`, `WindowsSettings`, `SingleInstance`, `MicaBackdrop`, `MemoryTrim`, `Updater`, `NativeMethods`. |
+| `src/TextCase` | WPF .NET 10. `App` (single instance, tray, hook, the window in front, settings, developer mode), `CasePopup` (+ `PopupColors`; the Smart switch, key 0; beside Start), `Toast`, `MainWindow` (pages built in code), `PopupMenu` + `Menus.xaml` (tray menu), `UpdateBar`, `Localization.cs`; `Controls/`: `Ui` (cards), `ShortcutBox` (records a shortcut); `Services/`: `KeyboardHook` (its own thread), `TextSwap` (copy → popup → paste), `ClipboardAccess` (+ the listener of copies), `Input` (SendInput), `RemoteDesktop`, `ShellWindows` (Start and its search box), `ExplorerMenu` (the menu of File Explorer, `--rename`), `SwapLog` (developer mode: each step, never the text), `TrayHost`, `AppSettings`, `WindowsSettings`, `AppPackage` (the Store version), `SingleInstance`, `MicaBackdrop`, `MemoryTrim`, `Updater`, `NativeMethods`. |
 | `tests/TextCase.Tests` | xUnit: conversions, shortcuts and the key logic (a clock of the tests), Ctrl+C twice, update feed, localization key parity. |
 | `installer/TextCase.iss` | Inno Setup (English/French), .NET 10 Desktop Runtime check (a silent install, winget or the updater, installs it without asking: no message box), closes the running app. |
-| `scripts/` | `build.ps1`, `make-icons.ps1`. |
+| `store/` | The Microsoft Store package: `AppxManifest.xml` (identity of Partner Center, the app and its startup task), `Assets/` (logos, by `make-icons.ps1`) and `listing.md` (what goes into Partner Center, English and French). |
+| `scripts/` | `build.ps1`, `build-store.ps1`, `make-icons.ps1`. |
 | `.github/workflows/build.yml` | Build + tests on push; release on a `v*` tag (pre-release when the tag has a `-`). |
 
 ### Technical choices (and why)
@@ -138,6 +150,18 @@ a drawn app. `.local\readme\capture.ps1 -Lang en|fr` takes the pieces, `.local\r
   (l'Appareil), English contractions do not (Don't).
 - **Same stack as the sister projects**: WPF .NET 10 Fluent theme, Mica, resx EN/FR, settings JSON, Inno Setup,
   updater from GitHub Releases.
+- **Store version** (as NowPlaying's): one code, one exe, built twice. `build-store.ps1` publishes it self-contained
+  with `-p:StoreBuild=true`: the target framework `net10.0-windows10.0.19041.0` (the Windows SDK projection, some
+  25 MB, for the startup task) and `STORE` defined; the GitHub build has neither. At run time
+  `AppPackage.IsPackaged` (`GetCurrentPackageFullName`) changes the start with Windows (a package's HKCU writes go to
+  its own copy, never read at sign-in: the `windows.startupTask` of the manifest and the `StartupTask` API; launched
+  by it, `ActivationKind.StartupTask`, it opens no window), the updates (none: the Store forbids it; the Updates page
+  opens the Store) and the menu of File Explorer (none, its switch hidden: Explorer never reads the package's copy of
+  the registry; the author's choice, October 25, 2026; a Windows 11 menu through an `IExplorerCommand`
+  DLL, as FolderTools, would bring it back). It offers once to uninstall the GitHub version (two TextCase at once
+  would both answer each shortcut; the uninstaller through Explorer, out of the package; it closes every TextCase).
+  Only `runFullTrust`. In the package, a file of `%LOCALAPPDATA%` that does not exist yet is written to the package's
+  folder (`Packages\<family>\LocalCache`).
 
 ### Localization
 
@@ -169,6 +193,15 @@ value)` exists for every `CaseMode` (a test checks). Installer messages in `inst
   his session only (`.local\read-real-state.cmd` for the Run key; `reg query` the same way for the menu).
 - A .NET file-based program (`dotnet run x.cs`) has reflection-based JSON off: add
   `#:property JsonSerializerIsReflectionEnabledByDefault=true` and `#:property PublishAot=false`.
+- A package cannot be registered from FAT or exFAT (0x80073CFD, "cannot deploy to the path layout on the file system
+  type exFAT"): copy the layout to an NTFS drive (not under `%LOCALAPPDATA%`, which Claude's shell sees redirected).
+- The certification kit cannot install an unsigned MSIX: register `dist\store\layout` first, then
+  `appcert.exe test -packagefullname <full name> -reportoutputpath <xml>` in an administrator prompt.
+- `makepri createconfig` puts each scale in a PRI file of its own (`<packaging>`, meant for a bundle): in a single
+  MSIX the scale-200 logos would be lost; `build-store.ps1` removes that section. Run makepri from PowerShell: Git
+  Bash turns its `/cf` options into paths.
+- GitHub creates no push event for more than three tags pushed at once (no workflow, no release): push a version's tag
+  alone.
 
 ## To do
 
@@ -180,7 +213,10 @@ value)` exists for every `CaseMode` (a test checks). Installer messages in `inst
       `{4D4C29C7-FEEA-4F84-8A74-1DB539E852D1}_is1`, dependency `Microsoft.DotNet.DesktopRuntime.10`, locales en-US and
       fr-FR), tested in Windows Sandbox, a pull request to `microsoft/winget-pkgs` from his account; once accepted, a
       step of the release job opens the pull request of each new version.
-- [ ] Retake the README pictures: the popup now shows four cases by default.
+- [ ] **Microsoft Store** (prepared in 0.2.0, not submitted; product "TextCase by QuentinPerou", shown as "Change Text
+      Case", Store ID `9N6FJCHCW5XW`, identity set in `store/AppxManifest.xml`): the package registered and tried
+      (startup task, the offer to uninstall the GitHub version, a real swap, the Updates page); the certification kit;
+      the submission by hand.
 
 ## Code signing (planned)
 

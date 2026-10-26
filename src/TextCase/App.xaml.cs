@@ -54,13 +54,6 @@ public partial class App : Application
             return;
         }
 
-        _instance = SingleInstance.TryStart(e.Args, _ => Dispatcher.BeginInvoke(() => OpenMainWindow()));
-        if (_instance is null)
-        {
-            Shutdown(); // already running: it has been told to open its window
-            return;
-        }
-
         Settings = AppSettings.Load();
 
         // UI language: the one chosen in the settings, else the Windows one (French, otherwise English).
@@ -69,6 +62,20 @@ public partial class App : Application
             ApplyLanguage(forced);
         else
             ApplyLanguage(Settings.Language);
+
+        // Before the single instance: the version from GitHub may be the one running.
+        if (OfferClassicRemoval())
+        {
+            Shutdown();
+            return;
+        }
+
+        _instance = SingleInstance.TryStart(e.Args, _ => Dispatcher.BeginInvoke(() => OpenMainWindow()));
+        if (_instance is null)
+        {
+            Shutdown(); // already running: it has been told to open its window
+            return;
+        }
 
         DispatcherUnhandledException += (_, args) =>
         {
@@ -110,11 +117,28 @@ public partial class App : Application
         // TEXTCASE_PICTURE_POPUP=<file.png>: the popup on a sample text, pictured off screen (README, tests).
         if (Environment.GetEnvironmentVariable("TEXTCASE_PICTURE_POPUP") is { Length: > 0 } picture)
             CasePopup.Picture(Environment.GetEnvironmentVariable("TEXTCASE_PICTURE_TEXT") ?? "CANON EOS R6 MARK II BOÎTIER NU", picture);
-        else if (!e.Args.Contains(BackgroundArgument))
+        else if (!e.Args.Contains(BackgroundArgument) && !AppPackage.LaunchedAtStartup())
             OpenMainWindow();
 
         _ = Updater.CheckAtStartupAsync();
         MemoryTrim.Soon();
+    }
+
+    /// <summary>
+    /// The Store version, the first time it finds the version installed from GitHub on the PC: two TextCase at once
+    /// would both answer each shortcut, so it offers to uninstall that one (asked once). True when the uninstaller has
+    /// been started: it closes every TextCase, so this one quits.
+    /// </summary>
+    private static bool OfferClassicRemoval()
+    {
+        if (!AppPackage.IsPackaged || Settings.ClassicRemovalOffered || AppPackage.ClassicUninstaller() is not { } uninstaller)
+            return false;
+        Settings.ClassicRemovalOffered = true;
+        Settings.Save();
+        if (MessageBox.Show(Strings.Get("ClassicRemovalText"), "TextCase", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            return false;
+        AppPackage.StartClassicUninstall(uninstaller);
+        return true;
     }
 
     protected override void OnExit(ExitEventArgs e)
@@ -241,8 +265,9 @@ public partial class App : Application
     }
 
     /// <summary>
-    /// The menu of File Explorer written again (this exe, the language, the cases of the popup): by the installed app
-    /// only, so that a development build never leaves a menu pointing to it.
+    /// The menu of File Explorer written again (this exe, the language, the cases of the popup): by the app installed
+    /// from GitHub only, so that a development build never leaves a menu pointing to it. Not by the Store version: its
+    /// registry writes stay in the package's own copy, which File Explorer never reads.
     /// </summary>
     internal static void RefreshExplorerMenu()
     {

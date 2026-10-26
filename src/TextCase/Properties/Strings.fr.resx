@@ -22,6 +22,11 @@
   <data name="AboutVersion" xml:space="preserve">
     <value>Version {0} · licence MIT</value>
   </data>
+  <data name="ClassicRemovalText" xml:space="preserve">
+    <value>TextCase est aussi installé depuis GitHub sur ce PC, et les deux répondraient chacun à chaque raccourci. Désinstaller celui de GitHub ?
+
+TextCase se ferme pendant la désinstallation : relancez-le ensuite depuis le menu Démarrer.</value>
+  </data>
   <data name="Close" xml:space="preserve">
     <value>Fermer</value>
   </data>
@@ -154,6 +159,12 @@
   <data name="ModeUpper" xml:space="preserve">
     <value>MAJUSCULES</value>
   </data>
+  <data name="OpenStartupSettings" xml:space="preserve">
+    <value>Applications de démarrage</value>
+  </data>
+  <data name="OpenStore" xml:space="preserve">
+    <value>Ouvrir le Store</value>
+  </data>
   <data name="PageAbout" xml:space="preserve">
     <value>À propos</value>
   </data>
@@ -256,8 +267,14 @@
   <data name="StartWithWindows" xml:space="preserve">
     <value>Démarrer avec Windows</value>
   </data>
+  <data name="StartWithWindowsByPolicy" xml:space="preserve">
+    <value>Réglé par l&apos;administrateur de ce PC.</value>
+  </data>
   <data name="StartWithWindowsHint" xml:space="preserve">
     <value>Les raccourcis sont prêts dès l&apos;ouverture de session</value>
+  </data>
+  <data name="StartWithWindowsOffByUser" xml:space="preserve">
+    <value>Désactivé dans les applications de démarrage de Windows : réactivez-le là.</value>
   </data>
   <data name="StatePaused" xml:space="preserve">
     <value>Raccourcis en pause</value>
@@ -336,5 +353,11 @@
   </data>
   <data name="UpdateWhatsNew" xml:space="preserve">
     <value>Nouveautés</value>
+  </data>
+  <data name="UpdatesByStore" xml:space="preserve">
+    <value>Les mises à jour viennent du Microsoft Store</value>
+  </data>
+  <data name="UpdatesByStoreHint" xml:space="preserve">
+    <value>Version {0} · le Store installe les nouvelles versions tout seul.</value>
   </data>
 </root>

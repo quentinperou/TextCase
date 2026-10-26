@@ -19,6 +19,15 @@
     <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
+  <!-- The Microsoft Store version (scripts\build-store.ps1, -p:StoreBuild=true): the Windows 10 2004 SDK projection
+       gives the startup task of its package (Services\AppPackage.cs). Not in the GitHub version, which has no use for
+       it (some 25 MB). -->
+  <PropertyGroup Condition="'$(StoreBuild)' == 'true'">
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <DefineConstants>$(DefineConstants);STORE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Resource Include="Assets\TextCase.ico" />
     <Resource Include="Assets\TextCase.png" />

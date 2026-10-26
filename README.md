@@ -83,6 +83,7 @@ two PCs must work (the clipboard is shared by default).
 | **Git** | Get the code | `winget install Git.Git` |
 | **.NET 10 SDK** | Build the app (C# / WPF) and run the tests | `winget install Microsoft.DotNet.SDK.10` |
 | **Inno Setup 6** | Build the installer | `winget install JRSoftware.InnoSetup` |
+| **Windows SDK** | `makeappx` and `makepri`, to pack the Store version | `winget install Microsoft.WindowsSDK.10.0.26100` |
 
 ### Build
 
@@ -92,6 +93,14 @@ two PCs must work (the clipboard is shared by default).
 
 The script runs the tests, then writes `dist\app\` (framework-dependent, ReadyToRun) and
 `dist\TextCase-Setup-<version>.exe`. Options: `-SkipTests`, `-NoInstaller`.
+
+```powershell
+.\scriptsuild-store.ps1
+```
+
+The Microsoft Store version: `dist\store\TextCase_<version>.0_x64.msix`, the same app with .NET inside, not signed
+(the Store signs it). In it, the start with Windows is a startup task, the Store installs the updates, and File
+Explorer has no TextCase menu (what a package writes to the registry stays in its own copy).
 
 ### While developing
 
@@ -110,7 +119,8 @@ src/
   TextCase.Core/   Logic without UI: the conversions and their rules, shortcuts, Ctrl+C twice, GitHub releases
   TextCase/        WPF app: keyboard hook, copy and paste, clipboard, the popup, the settings window, updates
 installer/         Inno Setup script
-scripts/           build.ps1, make-icons.ps1
+store/             Manifest, logos and listing of the Microsoft Store package
+scripts/           build.ps1, build-store.ps1, make-icons.ps1
 tests/             Unit tests (xUnit)
 ```
 
@@ -122,13 +132,14 @@ have the same keys and placeholders. Installer messages: `installer/TextCase.iss
 ### Icons
 
 `scripts\make-icons.ps1` draws the icon (`.ico`, the 256 px PNG of the app, `docs/icon-256.png`,
-`docs/icons/TextCase.svg`). The generated files are committed: run it again only to change the design.
+`docs/icons/TextCase.svg`, the logos of `store/Assets`). The generated files are committed: run it again only to change the design.
 
 ### Releasing a version
 
 1. Update `<Version>` in `Directory.Build.props`.
 2. Commit, then create and push a tag: `git tag v0.1.0`, then `git push origin v0.1.0`.
 3. The GitHub Actions workflow builds, tests and publishes the installer in a Release.
+4. The Store version: `.\scriptsuild-store.ps1`, then a new submission in Partner Center with the new `.msix`.
 
 ## Privacy
 
@@ -136,7 +147,7 @@ The text you convert never leaves your computer: TextCase reads it from the clip
 pastes it back. To see its shortcuts it watches the keyboard, and keeps nothing of it. Only in developer mode
 (About), a log of the shortcuts and of each change (times and lengths, never the text) is kept in
 `%LOCALAPPDATA%\TextCase\swap.log`. The only network access is the **update check** on GitHub (`api.github.com`),
-which can be turned off in **Updates**.
+which can be turned off in **Updates**; the Microsoft Store version has none (the Store updates it).
 
 ## License
 

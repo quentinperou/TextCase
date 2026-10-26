@@ -22,6 +22,11 @@
   <data name="AboutVersion" xml:space="preserve">
     <value>Version {0} · MIT license</value>
   </data>
+  <data name="ClassicRemovalText" xml:space="preserve">
+    <value>TextCase is also installed from GitHub on this PC, and two at once would both answer each shortcut. Uninstall the GitHub version?
+
+TextCase closes during the uninstall: start it again from the Start menu.</value>
+  </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -154,6 +159,12 @@
   <data name="ModeUpper" xml:space="preserve">
     <value>UPPERCASE</value>
   </data>
+  <data name="OpenStartupSettings" xml:space="preserve">
+    <value>Startup apps</value>
+  </data>
+  <data name="OpenStore" xml:space="preserve">
+    <value>Open the Store</value>
+  </data>
   <data name="PageAbout" xml:space="preserve">
     <value>About</value>
   </data>
@@ -256,8 +267,14 @@
   <data name="StartWithWindows" xml:space="preserve">
     <value>Start with Windows</value>
   </data>
+  <data name="StartWithWindowsByPolicy" xml:space="preserve">
+    <value>Set by the administrator of this PC.</value>
+  </data>
   <data name="StartWithWindowsHint" xml:space="preserve">
     <value>The shortcuts are ready as soon as you sign in</value>
+  </data>
+  <data name="StartWithWindowsOffByUser" xml:space="preserve">
+    <value>Turned off in Windows&apos; startup apps: turn it on again there.</value>
   </data>
   <data name="StatePaused" xml:space="preserve">
     <value>Shortcuts paused</value>
@@ -336,5 +353,11 @@
   </data>
   <data name="UpdateWhatsNew" xml:space="preserve">
     <value>What&apos;s new</value>
+  </data>
+  <data name="UpdatesByStore" xml:space="preserve">
+    <value>Updates come from the Microsoft Store</value>
+  </data>
+  <data name="UpdatesByStoreHint" xml:space="preserve">
+    <value>Version {0} · the Store installs new versions by itself.</value>
   </data>
 </root>

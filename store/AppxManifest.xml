@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The Microsoft Store version of TextCase: a full MSIX package of the same app, built by scripts\build-store.ps1 next to
+  the installer of the GitHub version (which this package does not change).
+
+  Identity: the values of the product in Partner Center (Product identity page), reserved on October 25, 2026 as
+  "TextCase by QuentinPerou" (Store ID 9N6FJCHCW5XW); the name shown in the Store is "Change Text Case", reserved too
+  (the identity keeps the first name, the Start menu says "TextCase"). The package is not signed: the Store signs it
+  when it publishes it.
+  Version: written by the build script from Directory.Build.props (0.2.0 gives 0.2.0.0, the Store wants the last number
+  at 0).
+
+  One application, with its startup task (start with Windows: a package's own copy of HKCU, where the Run key would
+  go, is never read at sign-in). No menu in File Explorer: the app's registry writes stay in the package's copy too.
+
+  runFullTrust: a desktop app (a keyboard hook for its shortcuts in every app, the keys Ctrl+C and Ctrl+V sent to the
+  app in front).
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap desktop rescap">
+
+  <Identity
+    Name="QuentinPerou.TextCasebyQuentinPerou"
+    Publisher="CN=E4BBF1EB-8886-49FD-8647-36786CAF5AC5"
+    Version="0.0.0.0"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Change Text Case</DisplayName>
+    <PublisherDisplayName>QuentinPerou</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Resources>
+    <Resource Language="en-us" />
+    <Resource Language="fr-fr" />
+  </Resources>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+  <Applications>
+    <Application Id="App" Executable="TextCase.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="TextCase"
+        Description="Change the case of the selected text in any app"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png" />
+
+      <Extensions>
+        <!-- Start with Windows, on from the first launch as the GitHub version does; the user turns it off in the app,
+             Task Manager or Settings (Services\AppPackage.cs). -->
+        <desktop:Extension Category="windows.startupTask" Executable="TextCase.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="TextCaseStartup" Enabled="true" DisplayName="TextCase" />
+        </desktop:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+</Package>
