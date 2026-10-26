@@ -14,12 +14,16 @@
 </p>
 
 <p align="center">
+  <a href="https://apps.microsoft.com/detail/9N6FJCHCW5XW?referrer=appbadge&mode=direct"><img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Download from the Microsoft Store"></a>
+</p>
+
+<p align="center">
   <img src=".github/screenshot.png" width="900" alt="TextCase: the settings window on its Shortcuts page, and the popup opened on a product name selected in an app, with the result of each case">
 </p>
 
 ---
 
-> **Early development.** Version 0.1, the first one.
+> **Early development.** Version 0.2.
 
 ## Features
 
@@ -60,6 +64,11 @@
 - **Developer mode** (About): a log, and the popup stays open for a screenshot.
 
 ## Installation
+
+From the **Microsoft Store**: [Change Text Case](https://apps.microsoft.com/detail/9N6FJCHCW5XW?referrer=appbadge&mode=direct), signed by Microsoft, updated by the
+Store. It has no menu in File Explorer (a Store app cannot add one this way).
+
+Or from GitHub:
 
 1. Download `TextCase-Setup-x.y.z.exe` from the [Releases](../../releases) page.
 2. Run it. As the installer is not signed, Windows SmartScreen may show “Windows protected your PC”:

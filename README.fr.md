@@ -14,12 +14,16 @@
 </p>
 
 <p align="center">
+  <a href="https://apps.microsoft.com/detail/9N6FJCHCW5XW?referrer=appbadge&mode=direct"><img src="https://get.microsoft.com/images/fr%20dark.svg" width="200" alt="Télécharger à partir du Microsoft Store"></a>
+</p>
+
+<p align="center">
   <img src=".github/screenshot.fr.png" width="900" alt="TextCase : la fenêtre des réglages sur sa page Raccourcis, et la popup ouverte sur un nom de produit sélectionné dans une application, avec le résultat de chaque casse">
 </p>
 
 ---
 
-> **Début du développement.** Version 0.1, la première.
+> **Début du développement.** Version 0.2.
 
 ## Fonctionnalités
 
@@ -62,6 +66,11 @@
 - **Mode développeur** (À propos) : un journal, et la popup reste ouverte pour une capture d'écran.
 
 ## Installation
+
+Depuis le **Microsoft Store** : [Change Text Case](https://apps.microsoft.com/detail/9N6FJCHCW5XW?referrer=appbadge&mode=direct), signée par Microsoft, mise à jour par
+le Store. Elle n'a pas le menu de l'Explorateur (une application du Store ne peut pas l'ajouter de cette façon).
+
+Ou depuis GitHub :
 
 1. Téléchargez `TextCase-Setup-x.y.z.exe` depuis la page [Releases](../../releases).
 2. Lancez-le. L'installeur n'étant pas signé, Windows SmartScreen peut afficher « Windows a protégé votre ordinateur » :

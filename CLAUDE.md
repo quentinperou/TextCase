@@ -213,10 +213,10 @@ value)` exists for every `CaseMode` (a test checks). Installer messages in `inst
       `{4D4C29C7-FEEA-4F84-8A74-1DB539E852D1}_is1`, dependency `Microsoft.DotNet.DesktopRuntime.10`, locales en-US and
       fr-FR), tested in Windows Sandbox, a pull request to `microsoft/winget-pkgs` from his account; once accepted, a
       step of the release job opens the pull request of each new version.
-- [ ] **Microsoft Store** (prepared in 0.2.0, not submitted; product "TextCase by QuentinPerou", shown as "Change Text
-      Case", Store ID `9N6FJCHCW5XW`, identity set in `store/AppxManifest.xml`): the package registered and tried
-      (startup task, the offer to uninstall the GitHub version, a real swap, the Updates page); the certification kit;
-      the submission by hand.
+- [ ] **Microsoft Store**: **in the Store since October 26, 2026**, "Change Text Case" 0.2.0.0
+      (`https://apps.microsoft.com/detail/9N6FJCHCW5XW`, product "TextCase by QuentinPerou"; submission 1 passed
+      certification and was published by itself; the badge and link in both READMEs). To try: the Store version
+      installed from the Store on a PC with the GitHub version (the offer to uninstall it), the start at sign-in.
 
 ## Code signing (planned)
 
